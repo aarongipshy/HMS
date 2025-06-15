@@ -1,0 +1,50 @@
+@extends('layout')
+@section('content')
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">បន្ទប់
+                <a href="{{url('admin/rooms')}}" class="float-right btn btn-success btn-sm">មើលទាំងអស់</a>
+            </h6>
+        </div>
+        <div class="card-body">
+            @if(Session::has('success'))
+            <p class="text-success">{{session('success')}}</p>
+            @endif
+            <div class="table-responsive">
+                <form method="post" action="{{url('admin/rooms')}}">
+                    @csrf
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>ជ្រើសរើសប្រភេទបន្ទប់</th>
+                            <td>
+                                <select name="rt_id" class="form-control">
+                                    <option value="0">--- ជ្រើសរើស ---</option>
+                                    @foreach($roomtypes as $rt)
+                                    <option value="{{$rt->id}}">{{$rt->title}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>ពិពណ៌នាបន្ថែម</th>
+                            <td><input name="title" type="text" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="បញ្ជូន" class="btn btn-primary" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+@endsection
