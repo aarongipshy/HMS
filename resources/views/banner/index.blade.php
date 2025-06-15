@@ -30,7 +30,9 @@
                         @foreach($data as $d)
                         <tr>
                             <td>{{$d->id}}</td>
-                            <td><img width="100" src="{{asset(''.$d->banner_src)}}" /></td>
+                            {{-- <td><img width="100" src="{{asset(''.$d->banner_src)}}" /></td> --}}
+                            <td><img width="100" src="{{ asset('storage/' . $d->banner_src) }}" />
+                            </td>
                             <td>{{$d->alt_text}}</td>
                             <td>{{$d->publish_status}}</td>
                             <td>
