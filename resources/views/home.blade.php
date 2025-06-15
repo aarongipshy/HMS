@@ -27,7 +27,7 @@
 	<div class="row my-4">
 		<div class="col-md-3">
 			<a href="{{url('service/'.$service->id)}}"><img class="img-thumbnail" style="width:100%"
-					src="{{asset(''.$service->photo)}}" /></a>
+					src="{{asset('storage/'.$service->photo)}}" /></a>
 		</div>
 		<div class="col-md-8">
 			<h3>{{$service->title}}</h3>
