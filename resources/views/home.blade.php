@@ -5,7 +5,7 @@
 	<div class="carousel-inner">
 		@foreach($banners as $index => $banner)
 		<div class="carousel-item @if($index==0) active @endif">
-			<img src="{{asset(''.$banner->banner_src)}}" class="d-block w-100" alt="{{$banner->alt_text}}">
+			<img src="{{asset('storage/'.$banner->banner_src)}}" class="d-block w-100" alt="{{$banner->alt_text}}">
 		</div>
 		@endforeach
 	</div>
