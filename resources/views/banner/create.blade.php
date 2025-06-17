@@ -6,7 +6,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">បន្ថែមអតិថិជន
+            <h6 class="m-0 font-weight-bold text-primary">បន្ថែមថ្មី
                 <a href="{{url('admin/banner')}}" class="float-right btn btn-success btn-sm">មើលទាំងអស់</a>
             </h6>
         </div>
