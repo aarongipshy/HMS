@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <th>រូបភាព</th>
-                        <td><img width="80" src="{{asset(''.$data->photo)}}" /></td>
+                        <td><img width="80" src="{{asset('storage/'.$data->photo)}}" /></td>
                     </tr>
                     <tr>
                         <th>ពិពណ៌នា</th>

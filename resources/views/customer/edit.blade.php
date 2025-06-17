@@ -44,7 +44,7 @@
                             <td>
                                 <input name="photo" type="file" />
                                 <input type="hidden" name="prev_photo" value="{{$data->photo}}" />
-                                <img width="100" src="{{asset(''.$data->photo)}}" />
+                                <img width="100" src="{{asset('storage/'.$data->photo)}}" />
                             </td>
                         </tr>
                         <tr>

@@ -39,7 +39,7 @@
                                         <input type="file" multiple name="imgs[]" />
                                         @foreach($data->roomtypeimgs as $img)
                                         <td class="imgcol{{$img->id}}">
-                                            <img width="150" src="{{asset(''.$img->img_src)}}" />
+                                            <img width="150" src="{{asset('storage/'.$img->img_src)}}" />
                                             <p class="mt-2">
                                                 <button type="button"
                                                     onclick="return confirm('តើអ្នកប្រាកដជាចង់លុបរូបភាពនេះមែនទេ?')"

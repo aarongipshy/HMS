@@ -30,7 +30,7 @@
                         <tr>
                             <td>{{$d->id}}</td>
                             <td>{{$d->title}}</td>
-                            <td><img width="100" src="{{asset(''.$d->photo)}}" /></td>
+                            <td><img width="100" src="{{asset('storage/'.$d->photo)}}" /></td>
                             <td>
                                 <a href="{{url('admin/service/'.$d->id)}}" class="btn btn-info btn-sm"><i
                                         class="fa fa-eye"></i></a>
