@@ -21,10 +21,10 @@ class AdminController extends Controller
         if (session('adminData')) {
             return redirect('admin');
         }
-        
+
         return view('login');
     }
-    
+
     // Check Login
     public function check_login(Request $request)
     {
@@ -36,52 +36,51 @@ class AdminController extends Controller
 
             Log::info('Login attempt for username: ' . $request->username);
 
-            // Try both SHA1 (for existing users) and Hash (for new security)
-            $admin = Admin::where('username', $request->username)
-                ->where(function($query) use ($request) {
-                    $query->where('password', sha1($request->password))
-                          ->orWhere('password', Hash::make($request->password));
-                })
-                ->first();
-
-            // If SHA1 failed, try direct hash check (for bcrypt passwords)
-            if (!$admin) {
-                $adminWithHash = Admin::where('username', $request->username)->first();
-                if ($adminWithHash && Hash::check($request->password, $adminWithHash->password)) {
-                    $admin = $adminWithHash;
-                }
-            }
+            // Get admin by username
+            $admin = Admin::where('username', $request->username)->first();
 
             if ($admin) {
-                // Store admin data in session
-                session(['adminData' => [$admin]]);
-                Log::info('User logged in successfully: ' . $admin->username);
+                // Check if password matches SHA1 or bcrypt
+                $isValidPassword = false;
 
-                // Handle remember me
-                if ($request->has('rememberme')) {
-                    Cookie::queue('adminuser', $request->username, 1440);
-                    Cookie::queue('adminpwd', encrypt($request->password), 1440); // Encrypt password
+                if ($admin->password === sha1($request->password)) {
+                    $isValidPassword = true; // Old SHA1
+                } elseif (Hash::check($request->password, $admin->password)) {
+                    $isValidPassword = true; // New bcrypt
                 }
 
-                return redirect('admin')->with('success', 'Login successful!');
-            } else {
-                Log::warning('Failed login attempt for username: ' . $request->username);
-                return redirect('admin/login')->with('msg', 'Invalid username or password!');
+                if ($isValidPassword) {
+                    // Store admin in session
+                    session(['adminData' => [$admin]]);
+                    Log::info('User logged in successfully: ' . $admin->username);
+
+                    // Handle remember me
+                    if ($request->has('rememberme')) {
+                        Cookie::queue('adminuser', $request->username, 1440);
+                        Cookie::queue('adminpwd', encrypt($request->password), 1440); // Encrypt password
+                    }
+
+                    return redirect('admin')->with('success', 'Login successful!');
+                }
             }
-            
+
+            // If login fails
+            Log::warning('Failed login attempt for username: ' . $request->username);
+            return redirect('admin/login')->with('msg', 'Invalid username or password!');
         } catch (\Exception $e) {
             Log::error('Login error: ' . $e->getMessage());
             return redirect('admin/login')->with('msg', 'An error occurred during login. Please try again.');
         }
     }
-    
+
+
     // Logout
     public function logout()
     {
         session()->forget(['adminData']);
         Cookie::forget('adminuser');
         Cookie::forget('adminpwd');
-        
+
         return redirect('admin/login')->with('success', 'Logged out successfully!');
     }
 
@@ -97,7 +96,7 @@ class AdminController extends Controller
                 ->groupBy('checkin_date')
                 ->orderBy('checkin_date')
                 ->get();
-                
+
             $labels = [];
             $data = [];
             foreach ($bookings as $booking) {
@@ -112,7 +111,7 @@ class AdminController extends Controller
                 ->select('rt.*', 'r.*', 'b.*', DB::raw('count(b.id) as total_bookings'))
                 ->groupBy('r.room_type_id')
                 ->get();
-                
+
             $plabels = [];
             $pdata = [];
             foreach ($rtbookings as $rbooking) {
@@ -126,7 +125,6 @@ class AdminController extends Controller
                 'plabels' => $plabels,
                 'pdata' => $pdata
             ]);
-            
         } catch (\Exception $e) {
             Log::error('Dashboard error: ' . $e->getMessage());
             return view('dashboard', [
@@ -183,18 +181,18 @@ class AdminController extends Controller
         try {
             $adminData = session('adminData')[0];
             $admin = Admin::find($adminData->id);
-            
+
             if (!$admin) {
                 return redirect('admin/login')->with('msg', 'Admin not found.');
             }
-            
+
             return view('admin.profile.show', ['admin' => $admin]);
         } catch (\Exception $e) {
             Log::error('Profile error: ' . $e->getMessage());
             return redirect('admin')->with('error', 'Error loading profile.');
         }
     }
-    
+
     // Show edit profile form
     public function editProfile()
     {
@@ -205,18 +203,18 @@ class AdminController extends Controller
         try {
             $adminData = session('adminData')[0];
             $admin = Admin::find($adminData->id);
-            
+
             if (!$admin) {
                 return redirect('admin/login')->with('msg', 'Admin not found.');
             }
-            
+
             return view('admin.profile.edit', ['admin' => $admin]);
         } catch (\Exception $e) {
             Log::error('Edit profile error: ' . $e->getMessage());
             return redirect('admin/profile')->with('error', 'Error loading edit form.');
         }
     }
-    
+
     // Update profile
     public function updateProfile(Request $request)
     {
@@ -227,11 +225,11 @@ class AdminController extends Controller
         try {
             $adminData = session('adminData')[0];
             $admin = Admin::find($adminData->id);
-            
+
             if (!$admin) {
                 return redirect('admin/login')->with('msg', 'Admin not found.');
             }
-            
+
             $request->validate([
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:admins,email,' . $admin->id,
@@ -239,7 +237,7 @@ class AdminController extends Controller
                 'address' => 'required|string|max:500',
                 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
+
             // Handle photo upload
             $imgPath = $admin->photo;
             if ($request->hasFile('photo')) {
@@ -247,11 +245,11 @@ class AdminController extends Controller
                 if ($admin->photo && Storage::disk('public')->exists($admin->photo)) {
                     Storage::disk('public')->delete($admin->photo);
                 }
-                
+
                 // Store new photo
                 $imgPath = $request->file('photo')->store('admin', 'public');
             }
-            
+
             // Update admin data
             $admin->update([
                 'full_name' => $request->full_name,
@@ -260,29 +258,28 @@ class AdminController extends Controller
                 'address' => $request->address,
                 'photo' => $imgPath,
             ]);
-            
+
             // Update session data
             $adminData = Admin::where('id', $admin->id)->get();
             session(['adminData' => $adminData]);
-            
+
             return redirect('admin/profile')->with('success', 'Profile updated successfully.');
-            
         } catch (\Exception $e) {
             Log::error('Update profile error: ' . $e->getMessage());
             return redirect('admin/profile/edit')->with('error', 'Error updating profile.');
         }
     }
-    
+
     // Show change password form
     public function changePassword()
     {
         if (!session('adminData')) {
             return redirect('admin/login');
         }
-        
+
         return view('admin.profile.change-password');
     }
-    
+
     // Update password
     public function updatePassword(Request $request)
     {
@@ -293,16 +290,16 @@ class AdminController extends Controller
         try {
             $adminData = session('adminData')[0];
             $admin = Admin::find($adminData->id);
-            
+
             if (!$admin) {
                 return redirect('admin/login')->with('msg', 'Admin not found.');
             }
-            
+
             $request->validate([
                 'current_password' => 'required|string',
                 'password' => 'required|string|min:6|confirmed',
             ]);
-            
+
             // Check current password (support both SHA1 and Hash)
             $currentPasswordValid = false;
             if (sha1($request->current_password) === $admin->password) {
@@ -310,21 +307,20 @@ class AdminController extends Controller
             } elseif (Hash::check($request->current_password, $admin->password)) {
                 $currentPasswordValid = true;
             }
-            
+
             if (!$currentPasswordValid) {
                 return redirect('admin/change-password')->with('error', 'Current password is incorrect.');
             }
-            
+
             // Update password with secure hashing
             $admin->password = Hash::make($request->password);
             $admin->save();
-            
+
             // Update session data
             $adminData = Admin::where('id', $admin->id)->get();
             session(['adminData' => $adminData]);
-            
+
             return redirect('admin/profile')->with('success', 'Password updated successfully.');
-            
         } catch (\Exception $e) {
             Log::error('Update password error: ' . $e->getMessage());
             return redirect('admin/change-password')->with('error', 'Error updating password.');
@@ -348,5 +344,9 @@ class AdminController extends Controller
                 'message' => 'Database connection failed: ' . $e->getMessage()
             ]);
         }
+    }
+    public function forgotPassword()
+    {
+        return view('admin.profile.forgot-password');
     }
 }

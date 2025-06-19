@@ -13,6 +13,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\PageController;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PasswordResetController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -107,3 +109,9 @@ Route::get('admin/profile/edit', [AdminController::class, 'editProfile']);
 Route::post('admin/profile/update', [AdminController::class, 'updateProfile']);
 Route::get('admin/change-password', [AdminController::class, 'changePassword']);
 Route::post('admin/update-password', [AdminController::class, 'updatePassword']);
+
+// Password Reset Routes
+Route::get('admin/forgot-password', [PasswordResetController::class, 'showForgotForm']);
+Route::post('admin/forgot-password', [PasswordResetController::class, 'sendResetLink']);
+Route::get('admin/reset-password/{token}', [PasswordResetController::class, 'showResetForm']);
+Route::post('admin/reset-password', [PasswordResetController::class, 'resetPassword']);

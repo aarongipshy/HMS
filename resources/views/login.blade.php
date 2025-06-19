@@ -53,17 +53,16 @@
                                             <input name="password" @if(Cookie::has('adminpwd'))
                                                 value="{{Cookie::get('adminpwd')}}" @endif type="password"
                                                 class="form-control form-control-user" id="exampleInputPassword"
-                                                placeholder="Password">
+                                                placeholder="ពាក្យសម្ងាត់ ">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" @if(Cookie::has('adminuser')) checked @endif
                                                     name="rememberme" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <label class="custom-control-label" for="customCheck">ចងចាំខ្ញុំ</label>
                                             </div>
                                         </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login" />
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="បញ្ជូន" />
 
                                     </form>
                                     
@@ -80,7 +79,8 @@
 
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">ភ្លេចពាក្យសម្ងាត់?</a>
+                                        {{-- <a class="small" href="admin/forgot-password">ភ្លេចពាក្យសម្ងាត់?</a> --}}
+                                        <a class="small" href="{{url('admin/forgot-password')}}">ភ្លេចពាក្យសម្ងាត់?</a>
                                     </div>
                                 </div>
                             </div>
@@ -107,3 +107,4 @@
 </body>
 
 </html>
+{{-- <a class="small" href="admin/forgot-password">ភ្លេចពាក្យសម្ងាត់?</a> --}}
