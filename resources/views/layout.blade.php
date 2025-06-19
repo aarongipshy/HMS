@@ -46,7 +46,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a href="{{ url()->current() }}" class="sidebar-brand d-flex align-items-center justify-content-center"
+            <a href="{{url('admin')}}" class="sidebar-brand d-flex align-items-center justify-content-center"
                 href="index.html">
 
                 <img class="logo" style="padding: 5px" src="{{ asset('img/logo.png') }}" alt="">
@@ -72,7 +72,7 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link @if(!request()->is('admin/banner*')) collapsed @endif" href="#"
+                <a class="nav-link @if(!request()->is('admin/banner*')) collapsed @endif" href="{{url('admin')}}"
                     data-toggle="collapse" data-target="#bannerSection" aria-expanded="true"
                     aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-images"></i>
@@ -89,7 +89,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link @if(!request()->is('admin/roomtype*')) collapsed @endif" href="#"
+                <a class="nav-link @if(!request()->is('admin/roomtype*')) collapsed @endif" href=""
                     data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-table"></i>
                     <span>ប្រភេទបន្ទប់</span>
@@ -187,12 +187,6 @@
                     <span>មតិអតិថិជន</span></a>
             </li>
 
-            <!-- បន្ថែមតំណភ្ជាប់ប្រវត្តិរូបមុនពេលតំណភ្ជាប់ចាកចេញ -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('admin/profile')}}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>គណនីអ្នកគ្រប់គ្រង</span></a>
-            </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
