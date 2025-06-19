@@ -33,6 +33,7 @@ Route::get('page/contact-us',[PageController::class,'contact_us']);
 Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'check_login']);
 Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// Route::get('admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 // Login routes
 // Route::get('admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
@@ -40,7 +41,7 @@ Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logo
 // Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 // Admin Dashboard
-Route::get('admin', [AdminController::class, 'dashboard']);
+Route::get('admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 // Banner Routes
 Route::get('admin/banner/{id}/delete', [BannerController::class, 'destroy']);
