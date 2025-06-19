@@ -30,9 +30,14 @@ Route::get('page/about-us',[PageController::class,'about_us']);
 Route::get('page/contact-us',[PageController::class,'contact_us']);
 
 // Admin Login
-Route::get('admin/login', [AdminController::class, 'login']);
+Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'check_login']);
-Route::get('admin/logout', [AdminController::class, 'logout']);
+Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// Login routes
+// Route::get('admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
+// Route::post('admin/login', [AdminController::class, 'login']);
+// Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 // Admin Dashboard
 Route::get('admin', [AdminController::class, 'dashboard']);
