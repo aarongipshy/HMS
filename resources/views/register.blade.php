@@ -22,7 +22,7 @@
                 <td><input required type="password" class="form-control" name="password"></td>
             </tr>
             <tr>
-                <th>លេខសម្ងាត់<span class="text-danger">*</span></th>
+                <th>លេខទូរស័ព្ទ<span class="text-danger">*</span></th>
                 <td><input required type="number" class="form-control" name="mobile"></td>
             </tr>
             <tr>

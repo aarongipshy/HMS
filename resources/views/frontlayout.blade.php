@@ -112,7 +112,7 @@
                 <div class="navbar-nav ms-auto">
                     <a href="{{ url('/')}}" class="nav-link" aria-current="page" href="#services">ទំព័រដើម</a>
                     <a class="nav-link" aria-current="page" href="#services">សេវាកម្ម</a>
-                    <a class="nav-link" href="#gallery">រូបភាព</a>
+                    {{-- <a class="nav-link" href="#gallery">រូបភាព</a> --}}
                     <a class="nav-link" href="{{url('page/about-us')}}">អំពីយើង</a>
                     <a class="nav-link" href="{{url('page/contact-us')}}">ទំនាក់ទំនងយើង</a>
                     @if(Session::has('customerlogin'))

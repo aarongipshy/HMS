@@ -142,7 +142,7 @@
                     data-toggle="collapse" data-target="#DepartmentMaster" aria-expanded="true"
                     aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>បញ្ជីផ្នែក</span>
+                    <span>ទីតាំង</span>
                 </a>
                 <div id="DepartmentMaster" class="collapse @if(request()->is('admin/department*')) show @endif"
                     aria-labelledby="headingTwo" data-parent="#accordionSidebar">
